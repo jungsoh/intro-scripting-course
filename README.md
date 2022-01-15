@@ -11,3 +11,5 @@ The technical level is quite basic in order to be suitable for people with littl
 - API access to biological databases
 - Bash scripting
 - R scripting
+
+There are 8 lecture slide decks in `lectures` and 10 lab exercise sets in `labs`. Some lecture covers more than one labs, but it should be obvious which lectures correspond to which labs when you compare the lecture and lab numberings.
