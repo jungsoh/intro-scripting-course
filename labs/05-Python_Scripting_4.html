@@ -1,0 +1,100 @@
+<html>
+
+<head>
+
+<title>657.019 Lab 05</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 05&ensp;Python Scripting 4</div>
+<div class="subtitle">657.019&ensp;Scripting for Biotechnologists&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>In your Linux home directory, make a new directory called <kbd>lab05</kbd>.
+  <li>Copy these files from the <kbd>/export/data/657.019/python</kbd> directory into your <kbd>lab05</kbd> directory:
+  <ul class="level2">
+    <li><kbd>convert_gb_to_fasta.py</kbd>
+    <li><kbd>filter_min200.py</kbd>
+    <li><kbd>chop_star.py</kbd>
+    <li><kbd>extract_seqs_input_order.py</kbd>
+    <li><kbd>extract_seqs_id_order.py</kbd>
+  </ul>
+  <li>Copy these files from the <kbd>/export/data/657.019/text</kbd> directory into your <kbd>lab05</kbd> directory:
+  <ul class="level2">
+    <li><kbd>PGSC_DM_v3.4_pep_representative.fasta</kbd>
+    <li><kbd>proteins.fasta</kbd>
+    <li><kbd>prot_ids.txt</kbd>
+    <li><kbd>NC_000913.gbk</kbd>
+    <li><kbd>NC_000913.faa</kbd>
+  </ul>
+  <li>Exercises in this lab were adapted from <a href="https://github.com/peterjc/biopython_workshop">Biopython Workshop</a>.
+</ol>
+
+<div id="conv" class="sectitle">Converting sequence file formats</div>
+<hr>
+<ol>
+  <li>Run the Python script <kbd>convert_gb_to_fasta.py</kbd> to convert the GenBank format file <kbd>NC_000913.gbk</kbd> to a FASTA format file. What is the output file called? What does <kbd>SeqIO.convert()</kbd> return?
+  <li>Modify the script so that it takes an input file and an output file as command line arguments, in that order. Test it using the input and output files originally used used in <kbd>convert_gb_to_fasta.py</kbd>.
+</ol>
+
+<div id="filt" class="sectitle">Filtering by sequence length</div>
+<hr>
+<ol>
+  <li>Run <kbd>filter_min200.py</kbd> which will filter out the sequences shorter than 200 amino acids in <kbd>NC_000913.faa</kbd>. How many sequences in the input file are at least 200 amino acids long? Examine the output sequence file carefully and find out what has gone wrong.
+  <li>The problem can be fixed by using a file handle for the output file, instead of the literal file name. Make these changes and test that the script now works correctly: 
+  <ul class="level2">
+    <li>Use the <kbd>open</kbd> function to create a file handle of the input file, before the <kbd>for</kbd> loop begins.
+    <li>In the <kbd>SeqIO.write()</kbd> call, use the file handle instead of the file name.
+    <li>Close the file handle after the <kbd>for</kbd> loop finishes
+  </ul>
+</ol>
+
+<div id="edit" class="sectitle">Editing sequences</div>
+<hr>
+<ol>
+  <li>Run <kbd>chop_star.py</kbd> which will try to chop off the <kbd>*</kbd> at the last position of the protein sequences in <kbd>proteins.fasta</kbd>. Check the output file to figure out what is wrong with this script. 
+  <li>Fix the script by putting the statement to chop off the last letter within an <kbd>if</kbd> block. Test that it now works correctly.
+</ol>
+
+
+<div id="search" class="sectitle">Extracting sequences</div>
+<hr>
+<ol>
+  <li>We want to extract only certain sequences from an input sequence file, using a list of sequence IDs. Given a list of IDs of sequences that we want, the check for whether an ID is in the list can be done as follows, which you can try in a Python 3 interpreter environment (use command <kbd>python3</kbd>):
+<p>
+<table class="command"><tr><td><pre>
+>>> wanted_ids = ["PGSC0003DMP400019313", "PGSC0003DMP400020381", "PGSC0003DMP400020972"]
+>>> "PGSC0003DMP400067339" in wanted_ids
+>>> "PGSC0003DMP400020972" in wanted_ids
+</pre></table>
+  <li>Using the above knowledge, complete <kbd>extract_seqs_input_order.py</kbd> to extract the three sequences with the given IDs, in the order they appear in the input file.
+  <li>Our first script checks all sequences in the input file, only to extract 3 sequences. This is because we used <kbd>SeqIO.parse()</kbd> to iterate over all individual sequences. Instead we can use <kbd>SeqIO.index()</kbd>, which will return the whole sequence file as a dictionary with the sequence IDs as the keys. Try these statements within a Python 3 interpreter:
+<p>
+<table class="command"><tr><td><pre>
+>>> from Bio import SeqIO
+>>> filename = "PGSC_DM_v3.4_pep_representative.fasta"
+>>> fasta_index = SeqIO.index(filename, "fasta")
+>>> print(str(len(fasta_index)) + " records in " + filename)
+>>> "PGSC0003DMP400019313" in fasta_index
+>>> record = fasta_index["PGSC0003DMP400019313"]
+>>> print(record)
+</pre></table> 
+  <li>Using the above knowledge, complete <kbd>extract_seqs_id_order.py</kbd> to extract the three sequences in order of the ID list. 
+  <li>Modify <kbd>extract_seqs_id_order.py</kbd> so that it takes a text file of wanted ID list (one ID per line) as a command line argument. Test the script using <kbd>prot_ids.txt</kbd> as the file of IDs, which contains 10 protein IDs..
+  <li>Modify the script further so that it also takes the input and output file names as command line arguments. There will be three arguments now: file of wanted IDs, input sequence file, and desired output file name.
+</ol>

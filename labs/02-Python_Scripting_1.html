@@ -1,0 +1,93 @@
+<html>
+
+<head>
+
+<title>657.019 Lab 02</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 02&ensp;Python Scripting 1</div>
+<div class="subtitle">657.019&ensp;Scripting for Biotechnologists&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>In your Linux home directory, make a new directory called <kbd>lab02</kbd>.
+  <li>Copy the following files from the <kbd>/export/data/657.019/python</kbd> directory into your <kbd>lab02</kbd> directory:
+  <ul class="level2">
+    <li><kbd>calc_gc_percent.py</kbd>
+    <li><kbd>complement.py</kbd>
+    <li><kbd>extract_exons.py</kbd>
+    <li><kbd>split_seq_to_fastas.py</kbd>
+    <li><kbd>convert_table_to_fasta.py</kbd>
+  </ul>
+  <li>Copy <kbd>AMY1A-202.fa</kbd> and <kbd>BRCA2-202_exons.tsv</kbd> from the <kbd>/export/data/657.019/text</kbd> directory into your <kbd>lab02</kbd> directory.
+</ol>
+
+<div id="GC" class="sectitle">Calculating GC percentages</div>
+<hr>
+<ol>
+  <li>The <kbd>calc_gc_percent.py</kbd> file contains a partially done Python script to calculate the GC percentage of a sequence. Complete the TO DO sections.
+  <li>Make sure to print all required things with informative messages.
+</ol>
+
+<div id="comp" class="sectitle">Complementing sequences</div>
+<hr>
+<ol>
+  <li>The <kbd>complement.py</kbd> file contains a partially done Python script to complement a sequence. Complete the TO DO sections.
+  <li>Make sure to print both the original and complement sequences at the end, and compare them to check the complementation has been done correctly.
+</ol>
+
+<div id="exon" class="sectitle">Extracting exons</div>
+<hr>
+<ol>
+  <li>The DNA sequence below consists of two exons and one intron (indicated in <span class="gray">gray</span>), with the first exon running from base 1 to 63 and the second exon running from base 91 to the end. 
+<p>
+<table class="command"><tr><td><pre>
+ATCGATCGATCGATCGACTGACTAGTCATAGCTATGCATGTAGCTACTCGATCGATCGATCGA<span class="gray">TCGATCGATCGATCGATCGATCATGCT</span>ATCATCGATCGATATCGATGCATCGACTACTAT
+</pre></table>
+  <li>The <kbd>extract_exons.py</kbd> file contains a partially done Python script to perform three separate tasks below. Complete the TO DO sections.
+  <ul class="level2">
+    <li>Print the two exons and the exonic sequence (<em>i.e.</em> two exons put together)
+    <li>Calculate what percentage of the sequence is in the exonic region
+    <li>Print the DNA sequence with the exonic region in uppercase and the intron masked in lowercase
+  </ul>
+  <li>Make sure all your outputs are correct, including the two exons, concatenated exonic sequence, exonic region percentage, and intron-masked sequence.
+</ol>
+
+<div id="file" class="sectitle">Splitting sequence and creating FASTA files</div>
+<hr>
+<ol>
+  <li>The FASTA file <kbd>AMY1A-202.fa</kbd> contains one transcript of the human AMY1A gene, consisting of 3 exons and 2 introns. They take the following base ranges:
+  <ul class="level2">
+    <li>exon 1: 1-42
+    <li>intron 1: 43-267
+    <li>exon 2: 268-481
+    <li>intron 2: 482-826
+    <li>exon 3: 827-973
+  </ul>
+  <li>The <kbd>split_seq_to_fastas.py</kbd> file contains a partially done Python script to split the input transcript sequence into exons and introns, and write exons and introns to separate FASTA files, respectively. Complete the TO DO sections.
+  <li>Check the contents of your new FASTA files. You can use the <kbd>fastalength</kbd> command, which will show you the length and name of every sequence in your FASTA file. If the extraction was done correctly, the exon lengths would be 42, 214, and 147, whereas the intron lengths would be 225 and 345. Also check that the sequence names are all different.
+</ol>
+
+<div id="loop" class="sectitle">Converting table into FASTA</div>
+<hr>
+<ol>
+  <li>The tab-separated file <kbd>BRCA2-202_exons.tsv</kbd> is a table of exons in one of the transcripts of the human BRCA2 gene. The columns are: exon ID, chromosome number, start position, end position, length, sequence. 
+  <li>The <kbd>convert_table_to_fasta.py</kbd> file contains a partially done Python script to convert the table into FASTA format. Complete the TO DO sections.
+  <li>Make sure each exon sequence header includes all information about the exon, in this format: &lsquo;>ID_chrNUM:START-END_LENGTHbp&rsquo;. For example, the header for the first exon should be <kbd>>ENSE00001930817_chr13:32379840_32379913_74bp</kbd>.
+  <li>Use the <kbd>fastalength</kbd> again to check that the sequence lengths and headers were printed correctly.
+</ol> 

@@ -1,0 +1,91 @@
+<html>
+
+<head>
+
+<title>657.019 Lab 07</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 07&ensp;Bash Scripting</div>
+<div class="subtitle">657.019&ensp;Scripting for Biotechnologists&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div id="setup" class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>In your Linux home directory, make a new directory called <kbd>lab07</kbd>, in which you will build and test your Bash scripts.
+  <li>Copy these incomplete Bash scripts from the <kbd>/export/data/657.019/bash</kbd> directory to your <kbd>lab07</kbd> directory:
+  <ul class="level2">
+    <li><kbd>echoargs.sh</kbd>
+    <li><kbd>backup.sh</kbd>
+    <li><kbd>firstlast.sh</kbd>
+    <li><kbd>nlcw.sh</kbd>
+  </ul>
+</ol>
+
+<div id="echo" class="sectitle">Echoing arguments</div>
+<hr>
+Complete <kbd>echoargs.sh</kbd> to echo its arguments.
+<ol>
+  <li>The script prints the script name, the number of arguments supplied, and the arguments themselves.
+  <li>Test it with 0, 1, 2, and 3 arguments.
+</ol>
+
+<div id="copyarg" class="sectitle">Copying files given as arguments</div>
+<hr>
+Complete <kbd>backup.sh</kbd> to create backup copies of files given as arguments.
+<ol>
+  <li>If there is no argument, the script prints a message and exits.
+  <li>Before the files are copied, the script prints a message saying how many files will be copied.
+  <li>The backup file name is <kbd>.bak</kbd> appended to the original name. 
+  <li>For testing, use the <kbd>touch</kbd> command to create multiple empty files with different names, and give those files as the arguments to the script.
+</ol>
+
+<div id="lines" class="sectitle">Printing only some lines of a file</div>
+<hr>
+Complete <kbd>firstlast.sh</kbd> to take a file as an argument, and print the first line and the last line of the file.
+<ol>
+  <li>When the user does not give an argument, the script should print an informative message and exit.
+  <li>When the argument is not a name of an existing readable file, the script should print a suitable message and exit.
+  <li>Apparently, the script will only be useful when the file has at least two lines of text. Before extracting the first and last lines, count the number of lines in the file. If the file has less than two lines, the script should print an appropriate message and exit.
+  <li>Use the <kbd>head</kbd> and <kbd>tail</kbd> commands, which can print a certain number of lines from the beginning of a file and from the end of a file, respectively.
+</ol>
+
+
+<div id="column" class="sectitle">Adding columns to a text file</div>
+<hr>
+Complete <kbd>nlcw.sh</kbd> to number the lines and count the words in each line of an input file, given either on the command line or by interactive input.
+<ol>
+  <li>If the user does not give an input file, the script prompts the user for one, gets the user input, and uses it.
+  <li>The script first prints a header line containing the appropriate headings for the three columns (line number, number of words, and line), separated by a Tab character.
+  <li>For each input line, the script prints the line number, the number of words, and the line itself, all on one line, separated by a Tab character. 
+</ol>
+
+<!--
+<div id="cal" class="sectitle">Printing a calendar</div>
+<hr>
+Write a Bash script called <kbd>mycal.sh</kbd> that prints the calendar of a year given as the argument, with a special interpretation of the year between 1 and 100, as described below.
+<ol>
+  <li><kbd>cal</kbd> is a Linux command that can print calendars. For example, <kbd>cal 99</kbd> prints the calendar of the year 99. But we want to write a script that, given 99 as the year, prints the calendar of the year 1999, not 99. Likewise, we want the script to print the 2018 calendar, when we give 18 as the year. 
+  <li>You need to clearly distinguish three mutually exclusive cases:
+  <ul class="level2">
+    <li>If the given year is between 18 and 100, change the year to be between 1918 and 2000 (<em>e.g.</em> change 89 to 1989).
+    <li>If the given year is between 1 and 17, change the year to be between 2001 and 2017 (<em>e.g.</em> change 4 to 2004).
+    <li>If the given year is greater than 100, do not change the year.
+  </ul>
+  <li>After the year conversion, simply use the <kbd>cal</kbd> command on the converted year.
+  <li>If the user does not give a proper year as the argument, it is okay for the script to fail. 
+</ol>
+-->

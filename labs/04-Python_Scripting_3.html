@@ -1,0 +1,89 @@
+<html>
+
+<head>
+
+<title>657.019 Lab 04</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 04&ensp;Python Scripting 3</div>
+<div class="subtitle">657.019&ensp;Scripting for Biotechnologists&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>In your Linux home directory, make a new directory called <kbd>lab04</kbd>.
+  <li>Copy <kbd>count_seqs.py</kbd> from the <kbd>/export/data/657.019/python</kbd> directory into your <kbd>lab04</kbd> directory.
+  <li>Copy <kbd>NC_000913.faa</kbd> and <kbd>PGSC_DM_v3.4_pep_representative.fasta</kbd> from the <kbd>/export/data/657.019/text</kbd> directory to your <kbd>lab04</kbd> directory.
+  <li>Exercises in this lab were adapted from <a href="https://github.com/peterjc/biopython_workshop">Biopython Workshop</a>.
+</ol>
+
+<div id="count" class="sectitle">Counting sequences</div>
+<hr>
+<ol>
+  <li>Run the Python script <kbd>count_seqs.py</kbd> for counting sequences in the FASTA file <kbd>NC_000913.faa</kbd>.
+  <li>The script is not useful as it can only count sequences in one particular file. Improve it to be able to read a FASTA file given as a command line argument. Test it by giving these files as the argument, one at at time: <kbd>NC_000913.faa</kbd> and <kbd>PGSC_DM_v3.4_pep_representative.fasta</kbd>.
+  <li>Create a copy of <kbd>count_seqs.py</kbd> and name it <kbd>count_seqs_multi.py</kbd>. Modify the script so that it takes a list of FASTA files as command line arguments, instead of just one. For each FASTA file, the script should output the file name and the sequence count. Test that it counts sequences in all files given as the arguments, by giving it the above two FASTA files as arguments.
+</ol>
+
+<div id="info" class="sectitle">Retrieving sequence information</div>
+<hr>
+<ol>
+  <li>Instead of simply counting sequences, we can retrieve information about individual sequences. Create a copy of the <kbd>count_seqs.py</kbd> script that you created and name it <kbd>print_id_length.py</kbd>.
+  <li>Replace the sequence counting statement inside the <kbd>for</kbd> loop in <kbd>print_id_length.py</kbd> with the following statement and run it on a FASTA file given as the argument. What information does the script output for each sequence?
+<p>
+<table class="command"><tr><td><pre>
+print("ID: " + record.id + "\tlength: " + str(len(record.seq)))
+</pre></table>
+  <li>Create another copy of <kbd>count_seqs.py</kbd> and name it <kbd>print_length_summary.py</kbd>. Modify the script to print, instead of individual sequence lengths, only a summary of sequence lengths including the following information:
+  <ul class="level2">
+    <li>Total sum of all sequence lengths
+    <li>Number of sequences shorter than 100 amino acids
+    <li>Number of sequences longer than 500 amino acids
+  </ul>
+</ol>
+
+<div id="seq" class="sectitle">Retrieving sequences</div>
+<hr>
+<ol>
+  <li>Create a copy of <kbd>print_id_length.py</kbd> and name it <kbd>print_id_seq.py</kbd>. Modify it so that it prints the sequences themselves instead of sequence lengths. The output for the first two sequences should look like below when you run this script on <kbd>NC_000913.faa</kbd> (where dots represent omission and the sequence ID and sequence are separated by tab):
+<p>
+<table class="command"><tr><td><pre>
+gi|16127995|ref|NP_414542.1|	MKRISTTITTTITITTGNGAG
+gi|16127996|ref|NP_414543.1|	MRVLKFGGTSVANAERFLRVA...VFADLLRTLSWKLGV
+</pre></table>
+  <li>Create a copy of <kbd>print_id_seq.py</kbd> and name it <kbd>print_id_seq5.py</kbd>. Modify it so that it prints only the first 5 and last 5 amino acid letters of each sequence, separated by three tildes (~~~). Thus, the correct output for the first two sequences when you run this script on <kbd>NC_000913.faa</kbd> is:
+<p>
+<table class="command"><tr><td><pre>
+gi|16127995|ref|NP_414542.1|    MKRIST~~~TGNGAG
+gi|16127996|ref|NP_414543.1|    MRVLKF~~~SWKLGV
+</pre></table>
+</ol>
+
+<div id="codon" class="sectitle">Checking for start and stop codons</div>
+<hr>
+<ol>
+  <li>Create a copy of <kbd>count_seqs.py</kbd> and name it <kbd>check_start_stop_codons.py</kbd>. Replace the sequence counting statement inside the <kbd>for</kbd> loop with the following <kbd>if</kbd> block. What does this <kbd>if</kbd> block do? 
+<p>
+<table class="command"><tr><td><pre>
+if not record.seq.startswith("M"):
+  bad = bad + 1
+  print(record.id + " starts with " + record.seq[0])
+</pre></table>
+  <li>Expand <kbd>check_start_stop_codons.py</kbd> to print a summary telling the user how many sequences do not start with <kbd>M</kbd>. Check that the script now works for both <kbd>NC_000913.faa</kbd> and <kbd>PGSC_DM_v3.4_pep_representative.fasta</kbd>. What is the significance of checking whether a proteins sequence starts with <kbd>M</kbd> (methionine)?
+  <li>Expand the script further to print the sequence description as well as the sequence ID for those sequences not starting with <kbd>M</kbd>. To find how to access the description of a sequence record, refer to <a href="http://biopython.org/wiki/SeqRecord">Biopython SeqRecord</a>.
+  <li>A stop codon in protein sequences is sometimes represented as <kbd>*</kbd>. Modify the script so that it prints <i>only</i> a summary of how many sequences do not start with <kbd>M</kbd> and how many sequences do not end with <kbd>*</kbd>. You will need to add an <kbd>if</kbd> block to check if each sequence ends with <kbd>*</kbd> and to increment a running count if so.
+</ol>

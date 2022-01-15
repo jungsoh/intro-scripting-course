@@ -1,0 +1,202 @@
+<html> <head>
+
+<title>657.019 Lab 06</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 06&ensp;Regular Expressions and Perl One-Liners</div>
+<div class="subtitle">657.019&ensp;Scripting for Biotechnologists&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>In your Linux home directory, make a new directory called <kbd>lab06</kbd>.
+  <li>Copy these files from the <kbd>/export/data/657.019/text</kbd> directory to your <kbd>lab06</kbd> directory: 
+  <ul class="level2">
+    <li><kbd>email_addrs.txt</kbd>
+    <li><kbd>sequence.txt</kbd>
+    <li><kbd>rna_sequence.txt</kbd>
+  </ul>
+</ol>
+
+<div id="pattern" class="sectitle"">Selecting matching patterns</div>
+<hr>
+<p>Each question presents a case-sensitive regular expression, where slash (<kbd>/</kbd>) is the delimiter to indicate where the regular expression starts and ends. The slashes are <b>not</b> part of the regular expression. Select the example patterns the regular expression matches as a whole (not just part of the pattern). For each pattern not matched in its entirety, indicate why the regex does not match the whole pattern.
+<ol>
+  <li><kbd>/a(ac)*a/</kbd>
+  <ol class="level2">
+    <li><kbd>acacac</kbd>
+    <li><kbd>aaca</kbd>
+    <li><kbd>aa</kbd>
+    <li><kbd>acaa</kbd>
+    <li><kbd>aacacaca</kbd>
+  </ol>
+  <li><kbd>/CT+G/</kbd>
+  <ol class="level2">
+    <li><kbd>ctg</kbd>
+    <li><kbd>CTG</kbd>
+    <li><kbd>CG</kbd>
+    <li><kbd>CTTTTTTG</kbd>
+    <li><kbd>CTGG</kbd>
+  </ol>
+  <li><kbd>/a.[gt]+/</kbd>
+  <ol class="level2">
+    <li><kbd>agt</kbd>
+    <li><kbd>atttttt</kbd>
+    <li><kbd>ang</kbd>
+    <li><kbd>at</kbd>
+    <li><kbd>anttggtgg</kbd>
+  </ol>
+  <li><kbd>/acg|TGA/</kbd>
+  <ol class="level2">
+    <li><kbd>TGA</kbd>
+    <li><kbd>acgGA</kbd>
+    <li><kbd>acgTGA</kbd>
+    <li><kbd>acg</kbd>
+    <li><kbd>acTGA</kbd>
+  </ol>
+  <li><kbd>/\w{0,10} \d\d?\d?/</kbd>
+  <ol class="level2">
+    <li><kbd>657 019</kbd>
+    <li><kbd>St Paul 3</kbd>
+    <li><kbd>ILikeNumber 14</kbd>
+    <li><kbd>Length: 752</kbd>
+    <li><kbd>lab 04</kbd>
+  </ol>
+  <li><kbd>/[a-z]*[\.\?!]/</kbd>
+  <ol class="level2">
+    <li><kbd>wow!</kbd>
+    <li><kbd>Big</kbd>
+    <li><kbd>small.?</kbd>
+    <li><kbd>looking to.</kbd>
+    <li><kbd>When?</kbd>
+    <li><kbd>?</kbd>
+    <li><kbd>actg...</kbd>
+  </ol>
+  <li><kbd>/>?\w+ [Ll]en=\d*/</kbd>
+  <ol class="level2">
+    <li><kbd>>seq027 len=</kbd>
+    <li><kbd>contig33 Len =1414</kbd>
+    <li><kbd>> GSEEEH7 Llen=033</kbd>
+    <li><kbd>>read_17345</kbd>
+    <li><kbd>r0274.1239 len=199</kbd>
+  </ol>
+  <li><kbd>/&lt[^&gt;]+&gt;/</kbd>
+  <ol class="level2">
+    <li><kbd>&lt;xml?&gt;</kbd>
+    <li><kbd>&lt;table&gt;&lt;/table&gt;</kbd>
+    <li><kbd>&lt;&lt;div&gt;&gt</kbd>
+    <li><kbd>&lt;&gt</kbd>
+    <li><kbd>&lt;font family="monospace"&gt;</kbd>
+  </ol>
+  <li><kbd>/([actgACTG]{4,4})\1+/</kbd>
+  <ol class="level2">
+    <li><kbd>AtAtAtAt</kbd>
+    <li><kbd>TTTTATTTTATTTT</kbd>
+    <li><kbd>GCCGCCGCC</kbd>
+    <li><kbd>CATGCATGCATGC</kbd>
+    <li><kbd>aggtAGGTaggtAGGT</kbd>
+    <li><kbd>annnannn</kbd>
+  </ol>
+</ol>
+
+<div id="homo" class="sectitle">Matching homopolymer tails</div>
+<hr>
+<ol>
+  <li>We want to build regular expressions to match homopolyer sequences longer than a certain number of bases.
+  <li>First build a case-insensitive regular expression that matches poly-A sequences whose length is at least 6. For example, given the sequence <kbd>ACTGGGTCTCT<span style="color:gray">AAA</span>GGGTCGT<span style="color:red">AAAAAA</span>CTCTC<span style="color:red">AAAAAAAAA</span></kbd>, it should match the <kbd>AAAAAA</kbd> and <kbd>AAAAAAAA</kbd>, but not the <kbd>AAA</kbd> that appears earlier. 
+  <li>Extend the above regex to match only poly-A <i>tails</i> of 6 or more bases, so that it matche only the <kbd>AAAAAAAA</kbd> at the end of the above example sequence. 
+  <li>Finally, extend the above regex further to match all homopolymer tails of minimum 6 bases, such that the match happens regardless whether it is an A, C, G, or T that is repeated.
+  <li>Test the regular expressions on the sequences below. If you use <a target="_blank" href="http://regexr.com">RegExr</a>, you need to turn on both the &ldquo;ignore case&rdquo; and &ldquo;multiline&rdquo; flags.
+<p>
+<table class="command"><tr><td><pre>
+>seq1
+ACTGGGTCTCTAAAGGGTCGTAAAAAACTCTCAAAAAAAAA
+>seq2
+GGTCTCTAAAGGGTCGCCCCCCCCTCTCGGGGGGGGG
+>seq3
+tgggtctctaaagggtcgtaaaaaactccccccccttttt
+>seq4
+CTGGGTCTCTAAAGGGTCGTAAAAAACTCTCCCCCC
+>seq5
+tgggtctctaaagggtcgtaaaaaactcccccccctttaaaaaaa
+</pre></table>
+</ol>
+
+<div id="extract" class="sectitle">Extracting information from matching records</div>
+<hr>
+<ol>
+  <li>You have a data file that contains both protein and gene data, one protein or gene per line.
+Each line of data tells you whether it is a protein or gene (<kbd>PR</kbd> or <kbd>GN</kbd>), an optional ID number (at least one digit) and the sequence length (after <kbd>BP:</kbd> for genes, after <kbd>AA:</kbd> for proteins). The three pieces of information are separated by a vertical bar (<kbd>|</kbd>). A sample file looks like:
+<p>
+<table class="command"><tr><td><pre>
+PR|00561934|AA:221
+PR||AA:450
+GN|47671|BP:3134
+PR|0017|AA:321
+GN||BP:1459
+PR|1043169|AA:529
+GN|947771|BP:2722
+</pre></table>
+  <li>Build a regular expression that matches the line only when there is a protein or gene ID.  When there is a match, the protein or gene length (without the <kbd>AA:</kbd> or <kbd>BP:</kbd>) should be captured as one of the groups, so that it can be reused when required. There could also be additional groups formed as a result of the match.
+On <a target="_blank" href="http://regexr.com">RegExr</a>, you can check the actual assignment of patterns to groups by hovering the mouse on the matched line.
+</ol>
+
+<!--
+<div id="extract" class="sectitle">Extracting matches</div>
+<hr>
+<ol>
+  <li>What is a Perl one-liner to print those lines of the <kbd>email_addrs.txt</kbd> file with only an email address and no other information? Make sure this Perl one-liner still works when there are whitespace characters before or after an email address.
+  <li>What is a Perl one-liner to print only email addresses in <kbd>email_addrs.txt</kbd>, not the whole lines containing an email address? Perl has a special variable <kbd>$&</kbd> that holds the text a regex matches. With this variable, we can identify the matching portion clearly (note that the <kbd>\n</kbd> prints a new line after each match):
+<p>
+<table class="command"><tr><td><pre>
+perl -ne 'print "$&\n" if /regex/' email_addrs.txt
+</pre></table>
+  <li>We want to use a Perl one-liner to find the first open reading frame (ORF) starting with ATG in the file <kbd>sequence.txt</kbd>. 
+  <ul class="level2">
+    <li>What is the Perl one-liner you used? You need to use a lazy match to find the first ORF.
+    <li>What is the first ORF sequence thus found?
+  </ul>
+</ol>
+-->
+
+<div id="replace" class="sectitle">Searching and replacing</div>
+<hr>
+<ol>
+  <li>What is a Perl one-liner to print the <kbd>email_addrs.txt</kbd> file with the email addresses masked out as <kbd>xxx@xxx</kbd>?
+  <li>We want to use a Perl one-liner to convert the RNA in the <kbd>rna_sequence.txt</kbd> file to DNA (<em>i.e.</em> uracil to thymine).
+  <ul class="level2">
+    <li>What is the Perl one-liner you used?
+    <li>Save the resulting DNA sequence into a new file (give it a proper name) for use in the next section.
+  </ul>
+  <li>What is a Perl one-liner to reformat the sequence in the file <kbd>sequence.txt</kbd> to 60 bases per line? You need to capture up to 60 characters per regex match, and then use the Perl special variable <kbd>$1</kbd> to refer to it in the replacement text.
+</ol>
+
+<div id="repeat" class="sectitle">Finding repeating patterns</div>
+<hr>
+<ol>
+  <li>We want to use a Perl one-liner to find and print <a target="_blank" href="https://en.wikipedia.org/wiki/Tandem_repeat">tandem repeats</a> where exactly four nucleotides are repeated, using the RNA-to-DNA converted sequence file saved from the previous section as the input file.
+  <ul class="level2">
+    <li>What is the Perl one-liner you used to find such repeats?
+    <li>What are the four-nucleotide tandem repeats thus found?
+  </ul>
+  <li>Modify the above Perl one-liner in two different ways, such that it finds and prints tandem repeats where exactly two, three, or four nucleotides are repeated, using the same input file. 
+  <ul class="level2">
+    <li>What is the Perl one-liner using the &lsquo;0 or 1 time&rsquo; (<em>i.e.</em> optional) matching quantifier?
+    <li>What is another Perl one-liner (with the identical output) using the &lsquo;min-max&rsquo; matching quantifier?
+    <li>What is the number of repeats thus found?
+  </ul>
+</ol>

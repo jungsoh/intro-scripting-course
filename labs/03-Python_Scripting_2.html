@@ -1,0 +1,72 @@
+<html>
+
+<head>
+
+<title>657.019 Lab 03</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 03&ensp;Python Scripting 2</div>
+<div class="subtitle">657.019&ensp;Scripting for Biotechnologists&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>In your Linux home directory, make a new directory called <kbd>lab03</kbd>.
+  <li>Copy <kbd>Drosophila.csv</kbd> and <kbd>sequence2.txt</kbd> from the <kbd>/export/data/657.019/text</kbd> directory to your <kbd>lab03</kbd> directory.
+  <li>Copy these Python script files from the <kbd>/export/data/657.019/python</kbd> directory to your <kbd>lab03</kbd> directory:
+  <ul class="level2">
+    <li><kbd>calc_aa_percent.py</kbd>
+    <li><kbd>check_conds_genes.py</kbd>
+    <li><kbd>translate_dna_to_protein.py</kbd>
+  </ul>
+</ol>
+
+<div id="aa" class="sectitle">Calculating amino acid percentages</div>
+<hr>
+<ol>
+  <li>We want to define a function that takes two arguments, a protein sequence and a 1-letter amino acid residue code, and then calculates the percentage of the sequence where the amino acid appears.
+  <li>We also want to define another function that takes a protein sequence and a list of amino acid codes as arguments, and then calculates the percentage of the sequence where the amino acids in the list appear.
+  <li>The <kbd>calc_aa_percent.py</kbd> file contains a partially done Python script that defines the two functions and tests them. Complete the TO DO sections.
+  <li>Make sure all the test function calls return correct values, as percentages (not ratios).
+</ol>
+
+<div id="cond" class="sectitle">Checking conditions for genes</div>
+<hr>
+<ol>
+  <li>The <kbd>Drosophila.csv</kbd> file is a comma-separated file about some made-up genes of Drosophila. Each line has this information about a gene: species, sequence, gene name, and expression level.
+  <li>The <kbd>check_conds_genes.py</kbd> file contains a partially done Python script to print, for each gene, the following things on one line separated by comma:
+  <ul class="level2">
+    <li>Gene name
+    <li>A message saying whether the GC percentage is high (above 55%), normal (between 45% and 55%), or low (below 45%), followed by the percentage itself 
+    <li>A message saying whether the gene length is normal (defined as being between 90 and 110, inclusive), followed by the length itself, only when the length is normal. Otherwise the message is empty.
+    <li>A message saying the gene name starts with K or H, only when this is true. Otherwise the message is empty.
+  </ul>
+  <li>Check the script output, to confirm that your gene condition tests are correct.
+</ol>
+
+<div id="translate" class="sectitle">Translating DNA into protein</div>
+<hr>
+<ol>
+  <li>Given a genetic code, we want to translate DNA sequences to protein sequences.
+  <li>The <kbd>translate_dna_to_protein.py</kbd> file contains a partially done Python script to define a function to do the translation and test the function. Complete the TO DO sections, noting that this script does three main things:
+  <ul class="level2">
+    <li>Define the genetic code as a dictionary variable.
+    <li>Define a function to translate a DNA sequence to a protein sequence.
+    <li>Test translation with several DNA sequences.
+  </ul>
+  <li>Make sure your script translates the test DNA sequences correctly.
+</ol>

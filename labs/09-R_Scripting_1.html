@@ -1,0 +1,174 @@
+<html>
+
+<head>
+
+<title>657.019 Lab 09</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 09&ensp;R Scripting 1</div>
+<div class="subtitle">657.019&ensp;Scripting f&uuml;r Biotechnologen&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div id="setup" class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>Exercises in this lab were adapted from <a href="http://www2.hawaii.edu/~mbutler/Rquickstart/simpleR.pdf">Getting Started in R for Biologists</a>.
+</ol>
+
+<div id="obj" class="sectitle">Creating objects</div>
+<hr>
+<ol>
+  <li>R has several functions to create objects. Try these example R statements to familiarize yourself with some of them. Use either <kbd>help</kbd> or <kbd>?</kbd> to get help about a function.
+<p>
+<table class="command"><tr><td><pre>
+> x <- c(3, 7, 11, 14)
+> x
+> x <- rep(x, 2)
+> x
+> x <- rep(x, 2)
+> x
+> y <- rnorm(16)
+> y
+> species <- letters[1:16]
+> species
+> LETTERS
+> treatment <- factor(c("high", "medium", "low"))
+> treatment
+> cbind(x, y)
+> rbind(x, y)
+> df <- data.frame(species, x, y)
+> df
+> plot(x, y)
+> plot(factor(x), y)
+> hist(y)
+</pre></table>
+  <li>Do the following steps in R.
+  <ul class="level2">
+    <li>Get 27 random data points from a normal distribution and save the result as a vector <kbd>y</kbd>.
+    <li>Create a vector <kbd>treatment</kbd> of treatment levels <kbd>weak</kbd>, <kbd>normal</kbd>, and <kbd>strong</kbd>, and save it as a factor.
+    <li>These treatment levels also have associated numeric values of 3, 5, and 7, respectively. Create a numeric vector <kbd>x</kbd> with these values.
+    <li>Create a vector <kbd>species</kbd> of 9 species with names being alphabet letters.
+    <li>Create a matrix with <kbd>x</kbd> in the first column and <kbd>y</kbd> in the second column, saving it as <kbd>mat</kbd>.
+    <li>Create a data frame with <kbd>species</kbd>, <kbd>treatment</kbd>, <kbd>x</kbd>, and <kbd>y</kbd> as columns, saving it as <kbd>dat</kbd>.
+    <li>Make a plot of the response (<kbd>y</kbd>) on the vertical axis versus the treatment (<kbd>x</kbd>) on the horizontal axis.
+    <li>Make a plot of the response (<kbd>y</kbd>) on the vertical axis versus the treatment as factor (<kbd>treatment</kbd>) on the horizontal axis. How is this plot different from the previous one?
+  </ul>
+</ol>
+
+<div id="what" class="sectitle">Getting information about objects</div>
+<hr>
+<ol>
+  <li>In an R session, you will create many objects of different types and structures. You can get information about an object in several ways. Try these example statements: 
+<p>
+<table class="command"><tr><td><pre>
+> x <- 1:14
+> x
+> class(x)
+> length(x)
+> dim(x)
+> dim(x) <- c(2, 7)
+> x
+> dim(x) <- c(7, 2)
+> x
+> class(x)
+> species <- LETTERS[1:7]
+> dat <- data.frame(species, x)
+> dat
+> class(dat)
+> names(dat)
+> colnames(dat)
+> rownames(dat)
+> names(dat) <- c("species", "length", "width")
+> dat
+> attributes(dat)
+> dim(x) <- NULL
+> x
+> str(dat)
+</pre></table>
+  <li>Do the following steps in R:
+  <ul class="level2">
+    <li>Create a sequence of 15 even numbers starting from 2, and save it as <kbd>y</kbd>.
+    <li>Turn <kbd>y</kbd> into a matrix of 3 rows and 5 columns.
+    <li>What is (are) the attribute(s) of <kbd>y</kbd>?
+  </ul>
+</ol>
+
+<div id="index" class="sectitle">Subsetting by indices</div>
+<hr>
+<ol>
+  <li>Indexing allows you to select only certain parts of an R data object, which you will need to do all the time. We will use an object built in to the package <kbd>phylobase</kbd>, which contains 5 morphological measurements for 13 species.
+  <li>Do these statements:
+<p>
+<table class="command"><tr><td><pre>
+> library(phylobase)
+> geospiza_raw
+> class(geospiza_raw)
+> attributes(geospiza_raw)
+> dat <- geospiza_raw$data
+> dim(dat)
+> attributes(dat)
+> str(dat)
+</pre></table>
+  <li>Answer these questions regarding the objects:
+  <ul class="level2">
+    <li>How many elements does <kbd>geospiza_raw</kbd> have?
+    <li>How many observations and variables does <kbd>dat</kbd> have?
+    <li>What is the class of <kbd>dat</kbd>?
+  </ul>
+  <li>With row and column indices of <kbd>dat</kbd>, you can select any single value or a range of values from it. Try these and describe which rows and columns are selected:
+<p>
+<table class="command"><tr><td><pre>
+> dat[3,4]
+> dat[,2]
+> dat[2]
+> dat[2,]
+> dat[c(1,5)]
+> dat[2:4,]
+> dat[2:4,2:4]
+> dat[-(1:4)]
+> dat[-c(1:4,11:13),]
+> dat[c("culmenL","gonysW")]
+> dat$gonysW
+</pre></table>
+</ol>
+
+<div id="index" class="sectitle">Subsetting by values</div>
+<hr>
+<ol>
+  <li>You can also pick a subset of an object by using conditions on values. Try these:
+<p>
+<table class="command"><tr><td><pre>
+> dat_g <- dat[5]
+> dat_g
+> dat_g > 2
+> dat[dat_g>2]
+> cbind(dat_g, dat_g>2)
+> dat[dat_g>2,]
+> dat[dat_g>2,3]
+> dat[dat_g>2,3:5]
+</pre></table>
+  <li>The predefined value of <kbd>NA</kbd> means a value is not available (or available but not reliable enough to be used). Guess and find out what each of these statements does:
+<p>
+<table class="command"><tr><td><pre>
+> dat[dat<2] <- NA
+> is.na(dat$beakD)
+> dat[is.na(dat$beakD),]
+> dat[!is.na(dat$beakD),]
+> dat[!is.na(dat$beakD) & dat$tarsusL>3,]
+> dat[!is.na(dat$beakD) | dat$tarsusL>3,]
+</pre></table>
+</ol>
+

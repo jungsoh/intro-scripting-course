@@ -1,0 +1,115 @@
+<html>
+
+<head>
+
+<title>657.019 Lab 10</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 10&ensp;R Scripting 2</div>
+<div class="subtitle">657.019&ensp;Scripting f&uuml;r Biotechnologen&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div id="setup" class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>In your Linux home directory, make a new directory called <kbd>lab10</kbd>.
+  <li>Copy <kbd>/export/data/657.019/text/two_columns.txt</kbd> to your <kbd>lab10</kbd> directory.
+</ol>
+
+<div id="stat" class="sectitle">Simple statistical analysis</div>
+<hr>
+<p>Use the data set in <kbd>two_columns.txt</kbd> to perform simple statistical analysis of the two columns of data. Follow these steps:
+<ol>
+  <li>Use <kbd>read.table</kbd> to read the data file into a data frame called <kbd>table</kbd>.
+  <li>Extract the first column of the data frame and save it in <kbd>v1</kbd>. Then extract the second column, saving it in <kbd>v2</kbd>.
+  <li>Use the <kbd>summary</kbd> function to get a summary of the data distribution for the first column. Then use the <kbd>summary</kbd> function again to get a summary of the data distribution for the second column.
+  <li>Use <kbd>hist(v1)</kbd> to get a basic frequency histogram of the data in the first column. Then use <kbd>hist(v1, breaks=1:50, col="red")</kbd> to plot another histogram. What is the effect of the <kbd>breaks</kbd> parameter? Repeat the same for <kbd>v2</kbd>.
+  <li>Use <kbd>cor(v1,v2)</kbd> to find the correlation of the values between the first column and the second column. What does the resulting correlation coefficient tell you about the relationship between the two columns of data?
+  <li>Show the sequence of R statements used. 
+</ol>
+
+<div id="scatter" class="sectitle">Creating scatter plots</div>
+<hr>
+<ol>
+  <li>The R <kbd>plot</kbd> function below was used to create the scatter plot, which shows the relationship between distance traveled and car speed. Copy and paste the command in your R session to produce the same plot, and note the effects the parameters have on the plot.
+<p>
+<table class="command"><tr><td><pre>
+plot(cars$dist~cars$speed,                        <span style="color:green"># vectors to plot</span>
+main="Relationship between car distance & speed", <span style="color:green"># plot title</span>
+xlab="Speed (miles per hour)",                    <span style="color:green"># X axis title</span>
+ylab="Distance travelled (miles)",                <span style="color:green"># Y axis title</span>
+xlim=c(0,30),         <span style="color:green"># set X axis limits from 0 to 30</span>
+ylim=c(0,140),        <span style="color:green"># set Y axis limits from 0 to 140</span>
+xaxs="i",             <span style="color:green"># set X axis style as internal</span>
+yaxs="i",             <span style="color:green"># set Y axis style as internal</span>
+col="red",            <span style="color:green"># set plotting symbol color to red</span>
+)
+</pre></table>
+
+<div class="flow">
+<img src="images/cars.png" border=1 style="box-shadow: 4px 4px 3px grey">
+</div>
+
+  <li>Let us assume the two-column data we used in Part 1 represents student test scores, such that each row shows one student's test scores in Biotechnology and in Scripting. Build a similar <kbd>plot</kbd> function to generate a plot that looks like below (find and add a parameter to change the plotting symbol to solid triangle):
+<div class="flow">
+<img src="images/bio-scr.png" border=1 style="box-shadow: 4px 4px 3px grey">
+</div>
+  <li>After the test score data has been plotted successfully, use <kbd>abline(lm(v2~v1))</kbd> to fit and display a straight line through the data points. 
+  <ul class="level2">
+    <li>Does the overlaid line conceptually agree or disagree with the correlation coefficient in Part 1? 
+    <li>Do you think there exists an actual linear relationship between the Biotechnology and Scripting test scores? 
+  </ul>
+  <li>We want to save the resulting plot (with the fitted line) as an image file:
+  <ul class="level2">
+    <li>Figure out how to do this from <a target="_blank" href="https://www.stat.berkeley.edu/classes/s133/saving.html">Saving Plots in R</a>. Pick the method where you do not need to run the <kbd>plot</kbd> function again.
+    <li>Use JPG as your image format. Call the two required functions with appropriate arguments to save the plot. 
+    <li>Outside of your R session, use the <kbd>eog</kbd> command on your image file to ensure the plot has been saved.
+  </ul>
+</ol>
+
+<div id="bar" class="sectitle">Creating bar charts</div>
+<hr>
+<ol>
+  <li>We have a data consisting of fold changes 
+of 5 genes in 3 samples, from a differential expression analysis.
+Run the R commands below, which will create a matrix of the fold change values and display a bar chart using it.
+<p>
+<table class="command"><tr><td><pre>
+fc = c(5, 44, 2, 6, 3, 1, 6, 3, 10, 8, 12, 2, 3, 4, 9) <span style="color:green"># read in 15 values</span>
+dim(fc) <- c(5, 3) <span style="color:green"># turn list into 5 x 3 matrix</span>
+fc <span style="color:green"># show matrix</span>
+samples = c("SampleP", "SampleQ", "SampleR") <span style="color:green"># names of 3 samples</span>
+genes = c("GeneA", "GeneB", "GeneC", "GeneD", "GeneE") <span style="color:green"># names of 5 genes of interest</span>
+colnames(fc) <- samples <span style="color:green"># assign column names</span>
+rownames(fc) <- genes <span style="color:green"># assign gene names</span>
+fc <span style="color:green"># what does it look like now?</span>
+t(fc) <span style="color:green"># swap rows and columns (transpose)</span>
+barplot(fc[,"SampleP"], names.arg=genes, col="blue") <span style="color:green"># draw bar chart for SampleP</span>
+</pre></table>
+
+  <li>What are the actual values the bars show? List them.
+  <li>Draw a bar chart for <kbd>SampleR</kbd>, coloring the bars red.
+  <li>We want to show the fold change values for the 5 genes for each sample. The command below produces a plot that almost works. What is wrong with this plot and how can you fix it?
+<p>
+<table class="command"><tr><td><pre>
+barplot(fc, main="Fold change values", beside=TRUE, legend=samples, col=heat.colors(3), border="gray", names.arg=samples)
+</pre></table>
+  <li>We may also want to plot the fold change values in different samples per gene. 
+  <ul class="level2">
+    <li>Modify the previous <kbd>barplot</kbd> function call to do this without modifying the matrix itself.
+    <li>Remember to change the values given with <kbd>col</kbd>, <kbd>legend</kbd>, and <kbd>names.arg</kbd> options accordingly.
+  </ul>
+</ol>

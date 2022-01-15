@@ -1,0 +1,112 @@
+<html>
+
+<head>
+
+<title>657.019 Lab 08</title>
+<link rel="stylesheet" type="text/css" href="657.019.css">
+<link rel="stylesheet" type="text/css" href="sidenav.css">
+<script type="text/javascript" src="sidenav.js"></script>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main">
+
+<div class="labtitle">Lab 08&ensp;Programmatics Web Access</div>
+<div class="subtitle">657.019&ensp;Scripting for Biotechnologists&ensp;(WS 2018/19)</div>
+
+<span id="contents" onclick="openNav()">
+<span style="font-size:125%">&#9776;</span>&ensp;Contents
+</span>
+
+<div id="setup" class="usectitle">Setup</div>
+<hr>
+<ol>
+  <li>In your Linux home directory, make a new directory called <kbd>lab08</kbd>.
+  <li>Copy <kbd>/export/data/657.019/text/yeast_chip.tsv</kbd> to your <kbd>lab08</kbd> directory.
+  <li>Copy <kbd>/export/data/657.019/bash/collect_gene_ids.sh</kbd> to your <kbd>lab08</kbd> directory.
+</ol>
+
+<div id="download" class="sectitle">Downloading data systematically</div>
+<hr>
+<p>Report the API URLs to retrieve the following information. Use <kbd>wget</kbd> to download from the URL. 
+<ol>
+  <li>The coding sequence and 60 flanking base pairs around the transcript ENST00000511656 of the gene ENSG00000187758 (Ensembl) from the human genome.
+  To figure out the required URL, find a very similar example from the <a target="_blank" href="http://www.ensembl.org/info/docs/webcode/linking.html">Linking in to Ensembl</a> information page, and change the transcript ID to ENST00000511656.
+With this API URL, the content downloaded by <kbd>wget</kbd> will be different from what you see on a Web browser. Simply report the URL after you confirm that the Web browser displays the correct content. 
+  <li>The protein record for P20806 (UniProt) in XML format, which is easier to parse than HTML. Find the relevant URL format from the <a target="_blank" href="http://www.uniprot.org/help/api">How can I access resources on this website programmatically?</a> page of UniProt. 
+  <li>Homologous genes most closely related to human cystic fibrosis, in FASTA format from the <a target="_blank" href="https://www.ncbi.nlm.nih.gov/homologene">NCBI HomoloGene</a> database. First find the most relevant HomoloGene ID, then use it to build the URL to use in the NCBI <a target="_blank" href="https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.Efetch">EFetch</a></kbd> tool.
+</ol>
+
+<div id="combine" class="sectitle">Automating collection of information from Web</div>
+<hr>
+<ol>
+  <li>The file <kbd>yeast_chip.tsv</kbd>
+contains (simulated) statistically significant results from a microarray experiment.
+There are 24 genes represented.
+There are usually multiple NCBI gene IDs for one gene name, coming from different organisms.
+Your task is to find all known NCBI Gene IDs of these genes, in an automated manner, using a Bash script.
+  <li>We first want to build a URL to retrieve a search result from NCBI Gene for one gene name:
+  <ul class="level2">
+    <li>Visit <a href="https://www.ncbi.nlm.nih.gov/gene">NCBI Gene</a>, and use the &ldquo;Advanced&rdquo; search to search for any one gene name as a field, not as free text.
+    <li>When the search is successful, add <kbd>&format=text</kbd> at the end of the address bar (without space), and reload to see the same search result in simple text format. Note this URL somewhere.
+  </ul>
+  <li>Complete the Bash script <kbd>collect_gene_ids.sh</kbd>. The outline of this script is as follows:
+    <ul class="level2">
+    <li>Create a list of URLs for all 24 genes. Build and test this part outside of your Bash script, and put it in the script after testing that it works.
+    <ul class="level2" style="list-style-type:circle">
+      <li>Write a Perl one-liner that prints, for each line of <kbd>yeast_chip.tsv</kbd>, only the gene name.
+      <li>Modify the above Perl one-liner to print a URL of the gene name search results from NCBI Gene, using the example URL you noted in the previous step. The Perl one-liner should print 24 URLs.
+      <li>Redirect the list of URLs to a file called <kbd>url_list.txt</kbd>.
+    </ul>
+    <li>Use <kbd>wget</kbd> to retrieve the contents of the URL list, with the option to read URLs from a file and retrieve them one by one.
+    Again, test this <kbd>wget</kbd> command outside of your script before putting it in.
+    <li>Make a <kbd>for</kbd> loop with two commands inside (where <kbd>...</kbd> is below), iterating over the files <kbd>wget</kbd> generated. For example, if the files were called <kbd>foobar</kbd>, <kbd>foobaz</kbd>, <kbd>fooqux</kbd>, etc. the loop would look like:
+<p>
+<table class="command"><tr><td><pre>
+for filename in foo*; do
+&nbsp;&nbsp;...
+done
+</pre></table>
+  <ul class="level2" style="list-style-type:circle">
+    <li>Use an <kbd>echo</kbd> command to print a nice header line that will separate the output for each file, such as (if <kbd>filename1</kbd> is the name of the first file downloaded): 
+<p>
+<table class="command"><tr><td><pre>
+========== filename1 ==========
+</pre></table>
+    <li>Write a Perl one-liner to catch and print all gene IDs, one per line. To ignore header lines, you can check that a line starts with a string of digits (which are taxonomy IDs), before printing the gene ID.
+    </ul>
+  </ul>
+</ol>
+
+<div id="para" class="sectitle">Parametrizing a shell script</div>
+<hr>
+<ol>
+  <li>The Bash script you developed works only for the data file <kbd>yeast_chip.tsv</kbd>. In addition, the downloaded files that <kbd>wget</kbd> generates are all over your working directory <kbd>lab08</kbd>. 
+Furthermore, extracting organism names corresponding to gene IDs will make the output more informative.
+It will be useful to be able to control these things as arguments to the script as follows:
+<ul class="level2">
+  <li>Argument 1: Chip data file name (required)
+  <li>Argument 2: Web download directory to use with <kbd>wget</kbd> (required)
+  <li>Argument 3: <kbd>org</kbd> or nothing (optional)
+</ul>
+  <li>Follow these steps to improve the Bash script:
+  <ul class="level2">
+    <li>Copy your script from Part 2 and name it <kbd>collect_gene_ids_args.sh</kbd>.
+    <li>Check that at least two required arguments are supplied. Otherwise, the script should exit with an error message.
+    <li>Check if the third argument is <kbd>org</kbd>:
+    <ul class="level2" style="list-style-type:circle">
+      <li>If yes, organism names as well as the gene IDs should be printed (tab-separated), like below:
+<p>
+<table class="command"><tr><td><pre>
+831635	Arabidopsis thaliana
+851509	Saccharomyces cerevisiae S288c
+...
+</pre></table>
+      <li>Otherwise, only the gene IDs will be extracted, as in Part 2.
+    </ul>
+  </ul>
+</ol>
